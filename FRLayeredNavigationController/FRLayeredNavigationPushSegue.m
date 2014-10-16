@@ -7,17 +7,25 @@
 //
 
 #import "FRLayeredNavigationPushSegue.h"
-#import "FRLayeredNavigationController.h"
-#import "UIViewController+FRLayeredNavigationController.h"
 
 @implementation FRLayeredNavigationPushSegue
 
 - (void)perform
 {
+    [self pushLayer];
+}
+
+- (void)pushLayer
+{
     UIViewController *sourceVC = [self sourceViewController];
     UIViewController *destinationVC = [self destinationViewController];
-    FRLayeredNavigationController *navigationController = [sourceVC layeredNavigationController];
-    [navigationController pushViewController:destinationVC inFrontOf:sourceVC maximumWidth:YES animated:YES];
+
+    [[[self sourceViewController]
+      layeredNavigationController] pushViewController:destinationVC
+                                   inFrontOf:sourceVC
+                                maximumWidth:NO
+                                    animated:YES
+                               configuration:self.configuration];
 }
 
 @end

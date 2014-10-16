@@ -80,6 +80,12 @@ typedef enum {
     FRLayeredAnimationDirectionRight
 } FRLayeredAnimationDirection;
 
+
+/**
+ * Identifier for root view controller segue, when instantiating from a storyboard
+ */
+static NSString *kFRRootViewControllerSegueIdentifier = @"fr_root";
+
 /**
  * The FRLayeredNavigationController class implements a container view controller that manages the navigation
  * of hierarchical content. This class is not intended for subclassing.

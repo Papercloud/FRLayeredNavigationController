@@ -41,7 +41,6 @@
 #define FRLayeredNavigationControllerStandardDistance ((float)64.0f)
 #define FRLayeredNavigationControllerStandardWidth ((float)400.0f)
 #define FRLayeredNavigationControllerSnappingVelocityThreshold ((float)100.0f)
-#define FRRootViewControllerSegueIdentifier @"fr_root"
 
 typedef enum {
     SnappingPointsMethodNearest,
@@ -84,7 +83,7 @@ typedef enum {
 - (void)awakeFromNib
 {
     // fr_root should be a segue of type FRLayeredNavigationRootSegue
-    [self performSegueWithIdentifier:FRRootViewControllerSegueIdentifier sender:self];
+    [self performSegueWithIdentifier:kFRRootViewControllerSegueIdentifier sender:self];
 }
 
 - (void)setRootViewController:(UIViewController *)rootViewController configuration:(void (^)(FRLayeredNavigationItem *item))configuration
@@ -97,7 +96,9 @@ typedef enum {
     layeredRC.layeredNavigationItem.hasChrome = NO;
     layeredRC.layeredNavigationItem.hasBorder = NO;
     layeredRC.layeredNavigationItem.displayShadow = NO;
-    configuration(layeredRC.layeredNavigationItem);
+    if (configuration) {
+        configuration(layeredRC.layeredNavigationItem);
+    }
     _outOfBoundsViewController = nil;
     _userInteractionEnabled = YES;
     _dropLayersWhenPulledRight = NO;
@@ -790,7 +791,9 @@ typedef enum {
     navItem.hasChrome = YES;
     navItem.displayShadow = YES;
 
-    configuration(newVC.layeredNavigationItem);
+    if (configuration) {
+        configuration(newVC.layeredNavigationItem);
+    }
 
     const CGFloat overallWidth = ((CGRectGetWidth(self.view.bounds) > 0) ?
                                   CGRectGetWidth(self.view.bounds) :

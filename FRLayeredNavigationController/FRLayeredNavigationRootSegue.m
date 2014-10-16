@@ -19,9 +19,7 @@
 - (void)perform
 {
     FRLayeredNavigationController *sourceViewController = [self sourceViewController];
-    [sourceViewController setRootViewController:[self destinationViewController] configuration:^(FRLayeredNavigationItem *item) {
-        // Empty.
-    }];
+    [sourceViewController setRootViewController:[self destinationViewController] configuration:self.configuration];
 }
 
 @end
