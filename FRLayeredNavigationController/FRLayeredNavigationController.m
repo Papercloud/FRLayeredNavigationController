@@ -41,6 +41,7 @@
 #define FRLayeredNavigationControllerStandardDistance ((float)64.0f)
 #define FRLayeredNavigationControllerStandardWidth ((float)400.0f)
 #define FRLayeredNavigationControllerSnappingVelocityThreshold ((float)100.0f)
+#define FRRootViewControllerSegueIdentifier @"fr_root"
 
 typedef enum {
     SnappingPointsMethodNearest,
@@ -75,23 +76,34 @@ typedef enum {
 {
     self = [super init];
     if (self) {
-        FRLayerController *layeredRC = [[FRLayerController alloc] initWithContentViewController:rootViewController
-                                                                                   maximumWidth:NO];
-        _layeredViewControllers = [[NSMutableArray alloc] initWithArray:@[layeredRC]];
-        layeredRC.layeredNavigationItem.nextItemDistance = FRLayeredNavigationControllerStandardDistance;
-        layeredRC.layeredNavigationItem.width = FRLayeredNavigationControllerStandardWidth;
-        layeredRC.layeredNavigationItem.hasChrome = NO;
-        layeredRC.layeredNavigationItem.hasBorder = NO;
-        layeredRC.layeredNavigationItem.displayShadow = NO;
-        configuration(layeredRC.layeredNavigationItem);
-        _outOfBoundsViewController = nil;
-        _userInteractionEnabled = YES;
-        _dropLayersWhenPulledRight = NO;
-
-        [self addChildViewController:layeredRC];
-        [layeredRC didMoveToParentViewController:self];
+        [self setRootViewController:rootViewController configuration:configuration];
     }
     return self;
+}
+
+- (void)awakeFromNib
+{
+    // fr_root should be a segue of type FRLayeredNavigationRootSegue
+    [self performSegueWithIdentifier:FRRootViewControllerSegueIdentifier sender:self];
+}
+
+- (void)setRootViewController:(UIViewController *)rootViewController configuration:(void (^)(FRLayeredNavigationItem *item))configuration
+{
+    FRLayerController *layeredRC = [[FRLayerController alloc] initWithContentViewController:rootViewController
+                                                                               maximumWidth:NO];
+    _layeredViewControllers = [[NSMutableArray alloc] initWithArray:@[layeredRC]];
+    layeredRC.layeredNavigationItem.nextItemDistance = FRLayeredNavigationControllerStandardDistance;
+    layeredRC.layeredNavigationItem.width = FRLayeredNavigationControllerStandardWidth;
+    layeredRC.layeredNavigationItem.hasChrome = NO;
+    layeredRC.layeredNavigationItem.hasBorder = NO;
+    layeredRC.layeredNavigationItem.displayShadow = NO;
+    configuration(layeredRC.layeredNavigationItem);
+    _outOfBoundsViewController = nil;
+    _userInteractionEnabled = YES;
+    _dropLayersWhenPulledRight = NO;
+
+    [self addChildViewController:layeredRC];
+    [layeredRC didMoveToParentViewController:self];
 }
 
 - (void)dealloc
