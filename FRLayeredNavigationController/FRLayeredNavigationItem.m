@@ -52,6 +52,8 @@
         self->_displayShadow = YES;
         self->_hasBorder = YES;
         self->_autosizeContent = YES;
+        self->_borderSpacing = UIEdgeInsetsMake(1, 1, 1, 1);
+        self->_borderColor = [UIColor colorWithWhite:236.0f/255.0f alpha:1];
     }
 
     return self;

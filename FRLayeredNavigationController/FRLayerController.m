@@ -100,7 +100,7 @@
 {
     CGRect contentFrame = CGRectZero;
     CGRect borderFrame = CGRectZero;
-    const CGFloat borderSpacing = self.layeredNavigationItem.hasBorder ? 1 : 0;
+    const UIEdgeInsets borderSpacing = self.layeredNavigationItem.hasBorder ? self.layeredNavigationItem.borderSpacing : UIEdgeInsetsZero;
 
     if (self.layeredNavigationItem.hasChrome) {
         CGRect chromeFrame = CGRectMake(0,
@@ -111,20 +111,20 @@
                                  [self layerChromeHeight],
                                  CGRectGetWidth(self.view.bounds),
                                  CGRectGetHeight(self.view.bounds)-[self layerChromeHeight]);
-        contentFrame = CGRectMake(borderSpacing,
-                                  [self layerChromeHeight] + borderSpacing,
-                                  CGRectGetWidth(self.view.bounds)-(2*borderSpacing),
-                                  CGRectGetHeight(self.view.bounds)-[self layerChromeHeight]-(2*borderSpacing));
+        contentFrame = CGRectMake(borderSpacing.left,
+                                  [self layerChromeHeight] + borderSpacing.top,
+                                  CGRectGetWidth(self.view.bounds)-(borderSpacing.left+borderSpacing.right),
+                                  CGRectGetHeight(self.view.bounds)-[self layerChromeHeight]-(borderSpacing.top+borderSpacing.bottom));
         self.chromeView.frame = chromeFrame;
     } else {
         borderFrame = CGRectMake(0,
                                  0,
                                  CGRectGetWidth(self.view.bounds),
                                  CGRectGetHeight(self.view.bounds));
-        contentFrame = CGRectMake(borderSpacing,
-                                  borderSpacing,
-                                  CGRectGetWidth(self.view.bounds)-(2*borderSpacing),
-                                  CGRectGetHeight(self.view.bounds)-(2*borderSpacing));
+        contentFrame = CGRectMake(borderSpacing.left,
+                                  borderSpacing.top,
+                                  CGRectGetWidth(self.view.bounds)-(borderSpacing.left+borderSpacing.right),
+                                  CGRectGetHeight(self.view.bounds)-(borderSpacing.top+borderSpacing.bottom));
     }
 
     if (self.layeredNavigationItem.hasBorder) {
@@ -147,9 +147,7 @@
 
     if (navItem.hasBorder) {
         self.borderView = [[UIView alloc] init];
-        self.borderView.backgroundColor = [UIColor clearColor];
-        self.borderView.layer.borderWidth = 1;
-        self.borderView.layer.borderColor = [UIColor colorWithWhite:236.0f/255.0f alpha:1].CGColor;
+        self.borderView.backgroundColor = self.layeredNavigationItem.borderColor;
         [self.view addSubview:self.borderView];
     }
 

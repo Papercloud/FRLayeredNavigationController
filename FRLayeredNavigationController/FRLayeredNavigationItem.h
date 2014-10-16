@@ -99,6 +99,16 @@
 @property (nonatomic, readwrite) BOOL hasBorder;
 
 /**
+ * If showing a border, this is the offset out from each of the view controller's edges.
+ */
+@property (nonatomic) UIEdgeInsets borderSpacing;
+
+/**
+ * Border color, if there is one.
+ */
+@property (nonatomic, strong) UIColor *borderColor;
+
+/**
  * If the view should display a shadow
  */
 @property (nonatomic, readwrite) BOOL displayShadow;
